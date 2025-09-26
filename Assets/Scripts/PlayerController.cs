@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -23,6 +23,6 @@ public class PlayerController : MonoBehaviour
         verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
 
 
-        viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+        viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
     }
 }
