@@ -4,7 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform viewPoint;
     [SerializeField] private float mouseSensitivity = 1f;
+    [SerializeField] private float moveSpeed = 5f;
     private float verticalRotStore;
+    private Vector3 moveDir, movement;
     private Vector2 mouseInput;
 
     void Start()
@@ -24,5 +26,13 @@ public class PlayerController : MonoBehaviour
 
 
         viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+
+
+        moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized;
+
+        transform.position += movement * moveSpeed * Time.deltaTime;
+
+
     }
 }
