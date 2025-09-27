@@ -5,15 +5,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform viewPoint;
     [SerializeField] private float mouseSensitivity = 1f;
     [SerializeField] private float moveSpeed = 5f, runSpeed = 8f;
-    private float activeMoveSpeed;
     [SerializeField] private CharacterController charCon;
+    private float activeMoveSpeed;
     private float verticalRotStore;
     private Vector3 moveDir, movement;
     private Vector2 mouseInput;
 
+    private Camera camera;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -47,5 +50,11 @@ public class PlayerController : MonoBehaviour
         charCon.Move(movement * Time.deltaTime);
 
 
+    }
+
+    private void LateUpdate()
+    {
+        camera.transform.position = viewPoint.position;
+        camera.transform.rotation = viewPoint.rotation;
     }
 }
