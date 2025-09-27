@@ -4,7 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform viewPoint;
     [SerializeField] private float mouseSensitivity = 1f;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 5f, runSpeed = 8f;
+    private float activeMoveSpeed;
     [SerializeField] private CharacterController charCon;
     private float verticalRotStore;
     private Vector3 moveDir, movement;
@@ -30,9 +31,20 @@ public class PlayerController : MonoBehaviour
 
 
         moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized;
 
-        charCon.Move(movement * moveSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            activeMoveSpeed = runSpeed;
+        }
+        else
+        {
+            activeMoveSpeed = moveSpeed;
+        }
+
+
+        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed;
+
+        charCon.Move(movement * Time.deltaTime);
 
 
     }
