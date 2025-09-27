@@ -44,8 +44,14 @@ public class PlayerController : MonoBehaviour
             activeMoveSpeed = moveSpeed;
         }
 
-
+        float yVel = movement.y;
         movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed;
+        movement.y = yVel;
+        movement.y += Physics.gravity.y * Time.deltaTime;
+        if (charCon.isGrounded)
+        {
+            movement.y = 0;
+        }
 
         charCon.Move(movement * Time.deltaTime);
 
