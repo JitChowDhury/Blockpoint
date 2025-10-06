@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseInput;
 
     private Camera camera;
+    private float jumpForce = 12f, gravityMod = 2.5f;
 
     void Start()
     {
@@ -47,12 +48,17 @@ public class PlayerController : MonoBehaviour
         float yVel = movement.y;
         movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed;
         movement.y = yVel;
-        movement.y += Physics.gravity.y * Time.deltaTime;
         if (charCon.isGrounded)
         {
             movement.y = 0;
         }
 
+        if (Input.GetButtonDown("Jump"))
+        {
+            movement.y = jumpForce;
+        }
+
+        movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
         charCon.Move(movement * Time.deltaTime);
 
 
