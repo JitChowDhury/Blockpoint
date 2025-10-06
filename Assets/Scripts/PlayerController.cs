@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 1f;
     [SerializeField] private float moveSpeed = 5f, runSpeed = 8f;
     [SerializeField] private CharacterController charCon;
+    [SerializeField] private Transform groundCheckPoint;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private LayerMask groundLayer;
     private float activeMoveSpeed;
     private float verticalRotStore;
     private Vector3 moveDir, movement;
@@ -13,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     private Camera camera;
     private float jumpForce = 12f, gravityMod = 2.5f;
+
+
 
     void Start()
     {
@@ -53,7 +58,9 @@ public class PlayerController : MonoBehaviour
             movement.y = 0;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, .25f, groundLayer);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             movement.y = jumpForce;
         }
