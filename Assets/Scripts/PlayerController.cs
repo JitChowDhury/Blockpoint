@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDir, movement;
     private Vector2 mouseInput;
 
-    private Camera camera;
+    private Camera cam;
     private float jumpForce = 12f, gravityMod = 2.5f;
 
 
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        camera = Camera.main;
+        cam = Camera.main;
     }
 
     // Update is called once per frame
@@ -68,6 +68,19 @@ public class PlayerController : MonoBehaviour
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
         charCon.Move(movement * Time.deltaTime);
 
+
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+
+
+
+
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
@@ -85,7 +98,18 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        camera.transform.position = viewPoint.position;
-        camera.transform.rotation = viewPoint.rotation;
+        cam.transform.position = viewPoint.position;
+        cam.transform.rotation = viewPoint.rotation;
+    }
+
+    private void Shoot()
+    {
+        Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+        ray.origin = cam.transform.position;
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Debug.Log($"WE HIT {hit.collider.gameObject.name}");
+        }
     }
 }
