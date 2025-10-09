@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheckPoint;
     [SerializeField] private bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private GameObject bulletImpact;
+
     private float activeMoveSpeed;
     private float verticalRotStore;
     private Vector3 moveDir, movement;
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log($"WE HIT {hit.collider.gameObject.name}");
+            Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
         }
     }
 }
