@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameObject bulletImpact;
+    [SerializeField] private float timeBetweenShots = .1f;
+    private float shotCounter;
 
     private float activeMoveSpeed;
     private float verticalRotStore;
@@ -78,7 +80,14 @@ public class PlayerController : MonoBehaviour
             Shoot();
         }
 
-
+        if (Input.GetMouseButton(0))
+        {
+            shotCounter -= Time.deltaTime;
+            if (shotCounter <= 0)
+            {
+                Shoot();
+            }
+        }
 
 
 
@@ -113,5 +122,8 @@ public class PlayerController : MonoBehaviour
         {
             Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
         }
+
+        shotCounter = timeBetweenShots;
+
     }
 }
