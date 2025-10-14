@@ -24,13 +24,15 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
     private float jumpForce = 12f, gravityMod = 2.5f;
 
-
+    public Gun[] allGuns;
+    private int selectedGun;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
         UIController.Instance.weaponTempSlider.maxValue = maxHeatValue;
+        SwitchGun();
     }
 
     // Update is called once per frame
@@ -112,9 +114,27 @@ public class PlayerController : MonoBehaviour
         {
             heatCounter = 0f;
         }
-
-
         UIController.Instance.weaponTempSlider.value = heatCounter;
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+        {
+            selectedGun += 1;
+            if (selectedGun >= allGuns.Length)
+            {
+                selectedGun = 0;
+            }
+            SwitchGun();
+
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+        {
+            selectedGun--;
+            if (selectedGun < 0)
+            {
+                selectedGun = allGuns.Length - 1;
+            }
+            SwitchGun();
+        }
 
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -158,5 +178,13 @@ public class PlayerController : MonoBehaviour
             UIController.Instance.overheatedMessage.gameObject.SetActive(true);
         }
 
+    }
+    void SwitchGun()
+    {
+        foreach (Gun gun in allGuns)
+        {
+            gun.gameObject.SetActive(false);
+        }
+        allGuns[selectedGun].gameObject.SetActive(true);
     }
 }
