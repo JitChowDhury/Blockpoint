@@ -8,8 +8,10 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject createRoomScreen;
+    [SerializeField] private GameObject roomScreen;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private TMP_Text loadingText;
+    [SerializeField] private TMP_Text roomNameText;
     [SerializeField] private TMP_InputField roomNameInput;
     void Start()
     {
@@ -25,6 +27,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         loadingScreen.SetActive(false);
         menuButtons.SetActive(false);
         createRoomScreen.SetActive(false);
+        roomScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -58,5 +61,13 @@ public class Launcher : MonoBehaviourPunCallbacks
             loadingText.text = "Creating Room....";
             loadingScreen.SetActive(true);
         }
+    }
+
+    public override void OnJoinedRoom()
+    {
+
+        CloseMenus();
+        roomScreen.SetActive(true);
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
     }
 }
