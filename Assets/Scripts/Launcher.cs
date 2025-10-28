@@ -6,8 +6,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public static Launcher Instance;
 
     [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private GameObject createRoomScreen;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private TMP_Text loadingText;
+    [SerializeField] private TMP_InputField roomNameInput;
     void Start()
     {
         CloseMenus();
@@ -21,6 +23,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         loadingScreen.SetActive(false);
         menuButtons.SetActive(false);
+        createRoomScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -35,10 +38,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         CloseMenus();
         menuButtons.SetActive(true);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OpenRoomCreate()
     {
-
+        CloseMenus();
+        createRoomScreen.SetActive(true);
     }
 }
