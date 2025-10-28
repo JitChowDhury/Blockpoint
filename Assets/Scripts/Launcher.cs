@@ -9,9 +9,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject createRoomScreen;
     [SerializeField] private GameObject roomScreen;
+    [SerializeField] private GameObject errorScreen;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private TMP_Text loadingText;
     [SerializeField] private TMP_Text roomNameText;
+    [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_InputField roomNameInput;
     void Start()
     {
@@ -28,6 +30,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         menuButtons.SetActive(false);
         createRoomScreen.SetActive(false);
         roomScreen.SetActive(false);
+        errorScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -69,5 +72,20 @@ public class Launcher : MonoBehaviourPunCallbacks
         CloseMenus();
         roomScreen.SetActive(true);
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        errorText.text = "Failed To Create  Room: " + message;
+        CloseMenus();
+        errorScreen.SetActive(true);
+
+    }
+
+    public void CloseErrorScreen()
+    {
+        CloseMenus();
+        menuButtons.SetActive(true);
     }
 }
