@@ -2,6 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using System.Collections.Generic;
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher Instance;
@@ -10,11 +11,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject createRoomScreen;
     [SerializeField] private GameObject roomScreen;
     [SerializeField] private GameObject errorScreen;
+    [SerializeField] private GameObject roomBrowserScreen;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private TMP_Text loadingText;
     [SerializeField] private TMP_Text roomNameText;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_InputField roomNameInput;
+    [SerializeField] private RoomButton theRoomButton;
+    private List<RoomButton> allRoomButtons = new List<RoomButton>();
     void Start()
     {
         CloseMenus();
@@ -31,6 +35,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         createRoomScreen.SetActive(false);
         roomScreen.SetActive(false);
         errorScreen.SetActive(false);
+        roomBrowserScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -101,5 +106,39 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         CloseMenus();
         menuButtons.SetActive(true);
+    }
+
+    public void OpenRoomBrowser()
+    {
+        CloseMenus();
+        roomBrowserScreen.SetActive(true);
+    }
+
+    public void CloseRoomBrowser()
+    {
+        CloseMenus();
+        menuButtons.SetActive(true);
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (RoomButton rb in allRoomButtons)
+        {
+            Destroy(rb.gameObject);
+        }
+        allRoomButtons.Clear();
+        theRoomButton.gameObject.SetActive(false);
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if ((roomList[i].PlayerCount != roomList[i].MaxPlayers) && roomList[i].RemovedFromList)
+            {
+                RoomButton newButton = Instantiate(theRoomButton, theRoomButton.transform.parent);
+                newButton.SetButtonDetails(roomList[i]);
+                newButton.gameObject.SetActive(true);
+
+                allRoomButtons.Add(newButton);
+            }
+        }
     }
 }
