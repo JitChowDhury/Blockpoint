@@ -9,6 +9,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject createRoomScreen;
+    [SerializeField] private GameObject nameInputScreen;
     [SerializeField] private GameObject roomScreen;
     [SerializeField] private GameObject errorScreen;
     [SerializeField] private GameObject roomBrowserScreen;
@@ -17,9 +18,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text roomNameText, playerNameLabel;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_InputField roomNameInput;
+    [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private RoomButton theRoomButton;
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
+
+    private bool hasSetNickName;
 
     private void Awake()
     {
@@ -42,6 +46,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomScreen.SetActive(false);
         errorScreen.SetActive(false);
         roomBrowserScreen.SetActive(false);
+        nameInputScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -57,6 +62,20 @@ public class Launcher : MonoBehaviourPunCallbacks
         menuButtons.SetActive(true);
 
         PhotonNetwork.NickName = Random.Range(0, 1000).ToString();
+        if (!hasSetNickName)
+        {
+            CloseMenus();
+            nameInputScreen.SetActive(true);
+            if (PlayerPrefs.HasKey("playerName"))
+            {
+                nameInput.text = PlayerPrefs.GetString("playerName");
+            }
+
+        }
+        else
+        {
+            PhotonNetwork.NickName = PlayerPrefs.GetString("playerName");
+        }
     }
     public void OpenRoomCreate()
     {
@@ -191,7 +210,19 @@ public class Launcher : MonoBehaviourPunCallbacks
         loadingText.text = "Joining Room...";
         loadingScreen.SetActive(true);
     }
+    public void SetNickName()
+    {
+        if (!string.IsNullOrEmpty(nameInput.text))
+        {
+            PhotonNetwork.NickName = nameInput.text;
+            PlayerPrefs.SetString("playerName", nameInput.text);
 
+            CloseMenus();
+            menuButtons.SetActive(true);
+
+            hasSetNickName = true;
+        }
+    }
     public void QuitGame()
     {
         Application.Quit();
