@@ -15,6 +15,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject roomBrowserScreen;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject roomTestButton;
     [SerializeField] private TMP_Text loadingText;
     [SerializeField] private TMP_Text roomNameText, playerNameLabel;
     [SerializeField] private TMP_Text errorText;
@@ -39,6 +40,10 @@ public class Launcher : MonoBehaviourPunCallbacks
         loadingText.text = "Connecting To Network...";
 
         PhotonNetwork.ConnectUsingSettings();
+
+#if UNITY_EDITOR
+        roomTestButton.SetActive(true);
+#endif        
     }
 
     void CloseMenus()
@@ -256,5 +261,16 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void QuickJoin()
+    {
+        PhotonNetwork.CreateRoom("Test");
+        CloseMenus();
+        loadingText.text = "Creating Room";
+        loadingScreen.SetActive(true);
+
+        RoomOptions options = new RoomOptions();
+        options.MaxPlayers = 8;
     }
 }
