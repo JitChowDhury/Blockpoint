@@ -14,16 +14,19 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject errorScreen;
     [SerializeField] private GameObject roomBrowserScreen;
     [SerializeField] private GameObject menuButtons;
+    [SerializeField] private GameObject startButton;
     [SerializeField] private TMP_Text loadingText;
     [SerializeField] private TMP_Text roomNameText, playerNameLabel;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_InputField roomNameInput;
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private RoomButton theRoomButton;
+    [SerializeField] private string levelToPlay;
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
 
     private bool hasSetNickName;
+
 
     private void Awake()
     {
@@ -53,6 +56,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
 
         PhotonNetwork.JoinLobby();
+        PhotonNetwork.AutomaticallySyncScene = true;
         loadingText.text = "Joining Lobby....";
     }
 
@@ -107,6 +111,14 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
         ListAllPlayers();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            startButton.SetActive(true);
+        }
+        else
+        {
+            startButton.SetActive(false);
+        }
 
     }
 
@@ -222,6 +234,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
             hasSetNickName = true;
         }
+    }
+
+
+    public void StartGame()
+    {
+        PhotonNetwork.LoadLevel(levelToPlay);
     }
     public void QuitGame()
     {
