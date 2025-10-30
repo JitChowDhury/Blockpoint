@@ -14,11 +14,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject roomBrowserScreen;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private TMP_Text loadingText;
-    [SerializeField] private TMP_Text roomNameText;
+    [SerializeField] private TMP_Text roomNameText, playerNameLabel;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_InputField roomNameInput;
     [SerializeField] private RoomButton theRoomButton;
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
+    private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
 
     private void Awake()
     {
@@ -54,6 +55,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         CloseMenus();
         menuButtons.SetActive(true);
+
+        PhotonNetwork.NickName = Random.Range(0, 1000).ToString();
     }
     public void OpenRoomCreate()
     {
@@ -83,6 +86,26 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomScreen.SetActive(true);
 
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+
+        ListAllPlayers();
+
+    }
+
+    private void ListAllPlayers()
+    {
+        foreach (TMP_Text player in allPlayerNames)
+        {
+            Destroy(player.gameObject);
+        }
+        allPlayerNames.Clear();
+        Player[] players = PhotonNetwork.PlayerList;
+        for (int i = 0; i < players.Length; i++)
+        {
+            TMP_Text newPlayerLabel = Instantiate(playerNameLabel, playerNameLabel.transform.parent);
+            newPlayerLabel.text = players[i].NickName;
+            newPlayerLabel.gameObject.SetActive(true);
+            allPlayerNames.Add(newPlayerLabel);
+        }
 
     }
 
