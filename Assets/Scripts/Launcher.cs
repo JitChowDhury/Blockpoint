@@ -19,6 +19,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField roomNameInput;
     [SerializeField] private RoomButton theRoomButton;
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         CloseMenus();
@@ -76,6 +81,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         CloseMenus();
         roomScreen.SetActive(true);
+
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
     }
@@ -131,7 +137,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < roomList.Count; i++)
         {
-            if ((roomList[i].PlayerCount != roomList[i].MaxPlayers) && roomList[i].RemovedFromList)
+            if (roomList[i].PlayerCount != roomList[i].MaxPlayers && !roomList[i].RemovedFromList)
             {
                 RoomButton newButton = Instantiate(theRoomButton, theRoomButton.transform.parent);
                 newButton.SetButtonDetails(roomList[i]);
@@ -140,5 +146,13 @@ public class Launcher : MonoBehaviourPunCallbacks
                 allRoomButtons.Add(newButton);
             }
         }
+    }
+
+    public void joinRoom(RoomInfo inputInfo)
+    {
+        PhotonNetwork.JoinRoom(inputInfo.Name);
+        CloseMenus();
+        loadingText.text = "Joining Room...";
+        loadingScreen.SetActive(true);
     }
 }
