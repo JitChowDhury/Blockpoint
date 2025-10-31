@@ -35,9 +35,11 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
         UIController.Instance.weaponTempSlider.maxValue = maxHeatValue;
         SwitchGun(); //activates the first gun
-        Transform newTrans = SpawnManager.Instance.GetSpawnPoint(); // spawn Player at random points
-        transform.position = newTrans.position;
-        transform.rotation = newTrans.rotation;
+
+
+        // Transform newTrans = SpawnManager.Instance.GetSpawnPoint(); // spawn Player at random points
+        // transform.position = newTrans.position;
+        // transform.rotation = newTrans.rotation;
     }
 
     // Update is called once per frame
