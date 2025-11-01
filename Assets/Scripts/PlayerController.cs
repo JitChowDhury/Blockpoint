@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameObject bulletImpact;
+    [SerializeField] private GameObject playerHitImpact;
     // [SerializeField] private float timeBetweenShots = .1f;
     [SerializeField] private float maxHeatValue = 10f, /*heatPerShot = 1f, */coolRate = 4f, overheatCoolRate = 5f;
     [SerializeField] private float muzzleDisplayTime;
@@ -200,7 +202,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
+
+            if (hit.collider.gameObject.tag == "Player")
+            {
+                Debug.Log("Hit " + hit.collider.gameObject.GetPhotonView().Owner.NickName);
+                PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
+            }
         }
 
         shotCounter = allGuns[selectedGun].timeBetweenShots;

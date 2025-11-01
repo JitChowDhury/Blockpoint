@@ -1867,7 +1867,7 @@ GameObject:
   - component: {fileID: 2395397745747707274}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1991,6 +1991,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   bulletImpact: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitImpact: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
   maxHeatValue: 10
   coolRate: 4
   overheatCoolRate: 5
