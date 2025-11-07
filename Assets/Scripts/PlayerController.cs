@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             movement.y = yVel;
             if (charCon.isGrounded)
             {
+
                 movement.y = 0;
             }
 
@@ -252,4 +253,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         allGuns[selectedGun].gameObject.SetActive(true);
         allGuns[selectedGun].muzzleFlash.SetActive(false);
     }
+
 }
+
