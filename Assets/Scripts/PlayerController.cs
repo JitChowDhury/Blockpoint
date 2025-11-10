@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [SerializeField] private int maxHealth = 100;
 
+    public Animator anim;
+
     private int currentHealth;
     private float heatCounter;
     private bool isOverHeated;
@@ -175,7 +177,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
 
-
+            anim.SetBool("grounded", isGrounded);
+            anim.SetFloat("speed", moveDir.magnitude);
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
