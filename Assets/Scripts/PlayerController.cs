@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     // [SerializeField] private float timeBetweenShots = .1f;
     [SerializeField] private float maxHeatValue = 10f, /*heatPerShot = 1f, */coolRate = 4f, overheatCoolRate = 5f;
     [SerializeField] private float muzzleDisplayTime;
+
+    [SerializeField] private int maxHealth = 100;
+
+    private int currentHealth;
     private float heatCounter;
     private bool isOverHeated;
     private float shotCounter;
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         cam = Camera.main;
         UIController.Instance.weaponTempSlider.maxValue = maxHeatValue;
         SwitchGun(); //activates the first gun
+        currentHealth = maxHealth;
 
 
         // Transform newTrans = SpawnManager.Instance.GetSpawnPoint(); // spawn Player at random points
@@ -187,18 +192,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void DealDamage(string damager)
+    public void DealDamage(string damager, int damageAmount)
     {
-        TakeDamage(damager);
+        TakeDamage(damager, damageAmount);
     }
-    public void TakeDamage(string damager)
+    public void TakeDamage(string damager, int damageAmount)
     {
 
         if (photonView.IsMine)
         {
+            currentHealth -= damageAmount;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                PlayerSpawner.Instance.Die(damager);
+            }
 
-            //   Debug.Log(photonView.Owner.NickName + " Has Been Hit by " + damager);
-            PlayerSpawner.Instance.Die(damager);
+
         }
 
     }
@@ -224,7 +234,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 Debug.Log("Hit " + hit.collider.gameObject.GetPhotonView().Owner.NickName);
                 PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
-                hit.collider.gameObject.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName);
+                hit.collider.gameObject.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage);
             }
             else
             {
