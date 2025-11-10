@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
     public GameObject deathScreen;
     public TMP_Text deathText;
     public Slider weaponTempSlider;
+    public Slider healthSlider;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {

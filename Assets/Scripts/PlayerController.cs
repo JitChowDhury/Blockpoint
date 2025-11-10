@@ -43,7 +43,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         UIController.Instance.weaponTempSlider.maxValue = maxHeatValue;
         SwitchGun(); //activates the first gun
         currentHealth = maxHealth;
-
+        UIController.Instance.healthSlider.maxValue = maxHealth;
+        UIController.Instance.healthSlider.value = currentHealth;
 
         // Transform newTrans = SpawnManager.Instance.GetSpawnPoint(); // spawn Player at random points
         // transform.position = newTrans.position;
@@ -207,7 +208,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 currentHealth = 0;
                 PlayerSpawner.Instance.Die(damager);
             }
-
+            UIController.Instance.healthSlider.value = currentHealth;
 
         }
 
