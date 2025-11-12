@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private float muzzleDisplayTime;
 
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private GameObject playerModel;
 
     public Animator anim;
 
@@ -45,12 +46,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
         UIController.Instance.weaponTempSlider.maxValue = maxHeatValue;
         SwitchGun(); //activates the first gun
         currentHealth = maxHealth;
-        UIController.Instance.healthSlider.maxValue = maxHealth;
-        UIController.Instance.healthSlider.value = currentHealth;
+
 
         // Transform newTrans = SpawnManager.Instance.GetSpawnPoint(); // spawn Player at random points
         // transform.position = newTrans.position;
         // transform.rotation = newTrans.rotation;
+
+        if (photonView.IsMine)
+        {
+            playerModel.SetActive(false);
+            UIController.Instance.healthSlider.maxValue = maxHealth;
+            UIController.Instance.healthSlider.value = currentHealth;
+        }
     }
 
     // Update is called once per frame

@@ -4126,6 +4126,7 @@ MonoBehaviour:
   overheatCoolRate: 5
   muzzleDisplayTime: 0.01666667
   maxHealth: 100
+  playerModel: {fileID: 8704141038582296628}
   anim: {fileID: 207772567503580144}
   allGuns:
   - {fileID: 3650473331242944281}
