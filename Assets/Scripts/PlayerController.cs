@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private GameObject playerModel;
+    [SerializeField] Transform modelGunPoint, gunHolder;
 
     public Animator anim;
 
@@ -57,6 +58,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
             playerModel.SetActive(false);
             UIController.Instance.healthSlider.maxValue = maxHealth;
             UIController.Instance.healthSlider.value = currentHealth;
+        }
+        else
+        {
+
+            gunHolder.parent = modelGunPoint;
+            gunHolder.localPosition = Vector3.zero;
+            gunHolder.localRotation = Quaternion.identity;
+
+
         }
     }
 
