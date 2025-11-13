@@ -8,5 +8,7 @@ public class Gun : MonoBehaviour
 
     public int shotDamage;
 
+    public Transform handOffset;
+
 
 }
