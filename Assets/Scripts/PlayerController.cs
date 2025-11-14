@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameObject bulletImpact;
     [SerializeField] private GameObject playerHitImpact;
+    [SerializeField] private float jumpForce = 8f, gravityMod = 2.5f;
 
     [SerializeField] private float maxHeatValue = 10f, coolRate = 4f, overheatCoolRate = 5f;
     [SerializeField] private float muzzleDisplayTime;
@@ -43,7 +44,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private Vector2 mouseInput;
 
     private Camera cam;
-    private float jumpForce = 12f, gravityMod = 2.5f;
 
     void Start()
     {
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
 
-        // Mouse Look
+
         mouseInput = new Vector2(
             Input.GetAxisRaw("Mouse X"),
             Input.GetAxisRaw("Mouse Y")
@@ -106,9 +106,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
             movement.y = jumpForce;
 
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
+
+        if (isGrounded && movement.y < 0)
+        {
+            movement.y = -2f;
+        }
         charCon.Move(movement * Time.deltaTime);
 
-        // Muzzle Flash hide timer
+
         if (fpsGuns[selectedGun].muzzleFlash.activeInHierarchy)
         {
             muzzleCounter -= Time.deltaTime;
