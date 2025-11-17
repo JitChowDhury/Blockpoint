@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
 
     public GameObject deathScreen;
     public TMP_Text deathText;
+    public TMP_Text ammoText;
     public Slider weaponTempSlider;
     public Slider healthSlider;
 

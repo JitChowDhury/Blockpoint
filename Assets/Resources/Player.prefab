@@ -411,7 +411,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8460155109361010761}
-  - component: {fileID: 3399802069974562958}
+  - component: {fileID: 7845926339163887190}
   m_Layer: 0
   m_Name: Gun 2-Machine Gun
   m_TagString: Untagged
@@ -437,7 +437,7 @@ Transform:
   - {fileID: 673095907339978156}
   m_Father: {fileID: 6763647521423437654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3399802069974562958
+--- !u!114 &7845926339163887190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -446,15 +446,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 820878912663918317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6692d0610b50a49a9c52f27e86b1c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf501cdd9d731f429f15bfb44473d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAutomatic: 1
-  timeBetweenShots: 0.1
-  heatPerShot: 1
+  damage: 15
+  range: 35
+  fireRate: 0.07
+  magazineSize: 30
+  currentAmmo: 0
+  reserveAmmo: 120
+  reloadTime: 1.4
   muzzleFlash: {fileID: 2952779071700329308}
-  shotDamage: 15
-  handOffset: {fileID: 673095907339978156}
+  muzzleFlashTime: 0.05
+  worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
 --- !u!1 &828782049604088234
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 344819850723300052}
-  - component: {fileID: 6252614771110592521}
+  - component: {fileID: 6779892111556312145}
   m_Layer: 0
   m_Name: Gun 3-Rifle
   m_TagString: Untagged
@@ -796,7 +802,7 @@ Transform:
   - {fileID: 1418933782076941483}
   m_Father: {fileID: 3945887416375765507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6252614771110592521
+--- !u!114 &6779892111556312145
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -805,15 +811,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000463922088815772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6692d0610b50a49a9c52f27e86b1c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf501cdd9d731f429f15bfb44473d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutomatic: 1
-  timeBetweenShots: 0.35
-  heatPerShot: 5
+  isAutomatic: 0
+  damage: 90
+  range: 200
+  fireRate: 1.2
+  magazineSize: 5
+  currentAmmo: 0
+  reserveAmmo: 20
+  reloadTime: 2.5
   muzzleFlash: {fileID: 8727549668977847159}
-  shotDamage: 50
-  handOffset: {fileID: 1418933782076941483}
+  muzzleFlashTime: 0.05
+  worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
 --- !u!1 &1022523981749933227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,14 +1646,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2495020043995542311}
-  - component: {fileID: 3650473331242944281}
+  - component: {fileID: 1161988876609101887}
   m_Layer: 0
   m_Name: Gun 1-Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2495020043995542311
 Transform:
   m_ObjectHideFlags: 0
@@ -1660,7 +1672,7 @@ Transform:
   - {fileID: 5091187390819522246}
   m_Father: {fileID: 3945887416375765507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3650473331242944281
+--- !u!114 &1161988876609101887
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1669,15 +1681,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2287009251213509416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6692d0610b50a49a9c52f27e86b1c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf501cdd9d731f429f15bfb44473d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAutomatic: 0
-  timeBetweenShots: 0.1
-  heatPerShot: 2
+  damage: 25
+  range: 60
+  fireRate: 0.25
+  magazineSize: 12
+  currentAmmo: 0
+  reserveAmmo: 60
+  reloadTime: 1.2
   muzzleFlash: {fileID: 7975659469743139744}
-  shotDamage: 25
-  handOffset: {fileID: 5091187390819522246}
+  muzzleFlashTime: 0.05
+  worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
 --- !u!1 &2476495937766439004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1750,7 +1768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4947340640375316523}
-  - component: {fileID: 5824734321474152019}
+  - component: {fileID: 2704680227767023946}
   m_Layer: 0
   m_Name: Gun 2-Machine Gun
   m_TagString: Untagged
@@ -1776,7 +1794,7 @@ Transform:
   - {fileID: 836421175245725430}
   m_Father: {fileID: 3945887416375765507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5824734321474152019
+--- !u!114 &2704680227767023946
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1785,15 +1803,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2714331141954077740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6692d0610b50a49a9c52f27e86b1c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf501cdd9d731f429f15bfb44473d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAutomatic: 1
-  timeBetweenShots: 0.1
-  heatPerShot: 1
+  damage: 15
+  range: 35
+  fireRate: 0.07
+  magazineSize: 30
+  currentAmmo: 0
+  reserveAmmo: 120
+  reloadTime: 1.4
   muzzleFlash: {fileID: 5670131338564820887}
-  shotDamage: 15
-  handOffset: {fileID: 836421175245725430}
+  muzzleFlashTime: 0.05
+  worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
 --- !u!1 &2849453665027045467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,7 +2139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6011067024653632409}
-  - component: {fileID: 6213659861899177179}
+  - component: {fileID: 6809748139932446313}
   m_Layer: 0
   m_Name: Gun 1-Pistol
   m_TagString: Untagged
@@ -2141,7 +2165,7 @@ Transform:
   - {fileID: 372966710893153455}
   m_Father: {fileID: 6763647521423437654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6213659861899177179
+--- !u!114 &6809748139932446313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2150,15 +2174,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3383239091670946937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6692d0610b50a49a9c52f27e86b1c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf501cdd9d731f429f15bfb44473d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAutomatic: 0
-  timeBetweenShots: 0.1
-  heatPerShot: 2
+  damage: 25
+  range: 60
+  fireRate: 0.25
+  magazineSize: 12
+  currentAmmo: 0
+  reserveAmmo: 60
+  reloadTime: 1.2
   muzzleFlash: {fileID: 4301741684843483058}
-  shotDamage: 25
-  handOffset: {fileID: 372966710893153455}
+  muzzleFlashTime: 0.05
+  worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
 --- !u!1 &3577580282525682788
 GameObject:
   m_ObjectHideFlags: 0
@@ -2168,7 +2198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6093185271494869280}
-  - component: {fileID: 3120192217596010219}
+  - component: {fileID: 5604570573915369289}
   m_Layer: 0
   m_Name: Gun 3-Rifle
   m_TagString: Untagged
@@ -2194,7 +2224,7 @@ Transform:
   - {fileID: 7036237153081978061}
   m_Father: {fileID: 6763647521423437654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3120192217596010219
+--- !u!114 &5604570573915369289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2203,15 +2233,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3577580282525682788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6692d0610b50a49a9c52f27e86b1c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf501cdd9d731f429f15bfb44473d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutomatic: 1
-  timeBetweenShots: 0.35
-  heatPerShot: 5
+  isAutomatic: 0
+  damage: 90
+  range: 200
+  fireRate: 1.2
+  magazineSize: 5
+  currentAmmo: 0
+  reserveAmmo: 20
+  reloadTime: 2.5
   muzzleFlash: {fileID: 28567440054300415}
-  shotDamage: 50
-  handOffset: {fileID: 7036237153081978061}
+  muzzleFlashTime: 0.05
+  worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
 --- !u!1 &3838338186842768893
 GameObject:
   m_ObjectHideFlags: 0
@@ -5227,8 +5263,8 @@ Transform:
   m_GameObject: {fileID: 7975659469743139744}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071057, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0, y: 0.0463, z: 0.5}
-  m_LocalScale: {x: -0.02, y: -0.02, z: -0.02}
+  m_LocalPosition: {x: 0.0219, y: 0.0615, z: 0.2717}
+  m_LocalScale: {x: -0.01, y: -0.01, z: -0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5971692856069167831}
@@ -6022,30 +6058,26 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  bulletImpact: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
-  playerHitImpact: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
   jumpForce: 8
   gravityMod: 2.5
-  maxHeatValue: 10
-  coolRate: 4
-  overheatCoolRate: 5
-  muzzleDisplayTime: 0.01666667
+  bulletImpact: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitImpact: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
   maxHealth: 100
   playerModel: {fileID: 8704141038582296628}
   gunHolder: {fileID: 3945887416375765507}
   modelGunPoint: {fileID: 3633315960922220313}
   fpsGuns:
-  - {fileID: 3650473331242944281}
-  - {fileID: 5824734321474152019}
-  - {fileID: 6252614771110592521}
+  - {fileID: 1161988876609101887}
+  - {fileID: 2704680227767023946}
+  - {fileID: 6779892111556312145}
   tpsGuns:
   - {fileID: 3383239091670946937}
   - {fileID: 820878912663918317}
   - {fileID: 3577580282525682788}
   allGuns:
-  - {fileID: 3650473331242944281}
-  - {fileID: 5824734321474152019}
-  - {fileID: 6252614771110592521}
+  - {fileID: 1161988876609101887}
+  - {fileID: 2704680227767023946}
+  - {fileID: 6779892111556312145}
   anim: {fileID: 207772567503580144}
 --- !u!114 &4268517257489338393
 MonoBehaviour:
