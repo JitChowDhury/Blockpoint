@@ -88,6 +88,7 @@ public class GunFPS : MonoBehaviourPun
                 hit.collider.GetComponent<PhotonView>().RPC(
                     "DealDamage",
                     RpcTarget.All,
+                    photonView.Owner.NickName,
                     damage
                 );
             }

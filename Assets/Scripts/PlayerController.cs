@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     // ------------------ DAMAGE / HEALTH ----------------------
 
     [PunRPC]
-    public void DealDamage(int damageAmount)
+    public void DealDamage(string damager, int damageAmount)
     {
         if (!photonView.IsMine) return;
 
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (currentHealth <= 0)
         {
-            PlayerSpawner.Instance.Die("");
+            PlayerSpawner.Instance.Die(damager);
         }
     }
 
