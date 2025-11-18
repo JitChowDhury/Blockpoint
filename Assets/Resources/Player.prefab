@@ -453,6 +453,10 @@ MonoBehaviour:
   damage: 15
   range: 35
   fireRate: 0.07
+  gunAnimator: {fileID: 0}
+  shootAnim: Shoot
+  reloadAnim: Reload
+  idleAnim: Idle
   magazineSize: 30
   currentAmmo: 0
   reserveAmmo: 120
@@ -777,6 +781,7 @@ GameObject:
   m_Component:
   - component: {fileID: 344819850723300052}
   - component: {fileID: 6779892111556312145}
+  - component: {fileID: 3571581593100278574}
   m_Layer: 0
   m_Name: Gun 3-Rifle
   m_TagString: Untagged
@@ -817,7 +822,11 @@ MonoBehaviour:
   isAutomatic: 0
   damage: 90
   range: 200
-  fireRate: 1.2
+  fireRate: 2
+  gunAnimator: {fileID: 3571581593100278574}
+  shootAnim: Shoot
+  reloadAnim: Reload
+  idleAnim: Idle
   magazineSize: 5
   currentAmmo: 0
   reserveAmmo: 20
@@ -826,6 +835,28 @@ MonoBehaviour:
   muzzleFlashTime: 0.05
   worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
+--- !u!95 &3571581593100278574
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000463922088815772}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 57e45cc637920604a9c3f45ce4f0f9b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1022523981749933227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,13 +1678,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2495020043995542311}
   - component: {fileID: 1161988876609101887}
+  - component: {fileID: 8097148764826258712}
   m_Layer: 0
   m_Name: Gun 1-Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2495020043995542311
 Transform:
   m_ObjectHideFlags: 0
@@ -1688,6 +1720,10 @@ MonoBehaviour:
   damage: 25
   range: 60
   fireRate: 0.25
+  gunAnimator: {fileID: 8097148764826258712}
+  shootAnim: Shoot
+  reloadAnim: Reload
+  idleAnim: Idle
   magazineSize: 12
   currentAmmo: 0
   reserveAmmo: 60
@@ -1696,6 +1732,28 @@ MonoBehaviour:
   muzzleFlashTime: 0.05
   worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
+--- !u!95 &8097148764826258712
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2287009251213509416}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c2b6572c391e82d448e9c6ba601b5684, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2476495937766439004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,6 +1827,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4947340640375316523}
   - component: {fileID: 2704680227767023946}
+  - component: {fileID: 331459487058075766}
   m_Layer: 0
   m_Name: Gun 2-Machine Gun
   m_TagString: Untagged
@@ -1810,6 +1869,10 @@ MonoBehaviour:
   damage: 15
   range: 35
   fireRate: 0.07
+  gunAnimator: {fileID: 331459487058075766}
+  shootAnim: Shoot
+  reloadAnim: Reload
+  idleAnim: Idle
   magazineSize: 30
   currentAmmo: 0
   reserveAmmo: 120
@@ -1818,6 +1881,28 @@ MonoBehaviour:
   muzzleFlashTime: 0.05
   worldHitEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   playerHitEffect: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
+--- !u!95 &331459487058075766
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2714331141954077740}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2d0a043567c24444ca24e34264d4c675, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2849453665027045467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,13 +1995,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2968399034728140740}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 90, y: 90, z: 90}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.014, y: 0.042, z: -0.01}
+  m_LocalScale: {x: 82.47, y: 82.47, z: 82.47}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4947340640375316523}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &7253202485195113733
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2181,6 +2266,10 @@ MonoBehaviour:
   damage: 25
   range: 60
   fireRate: 0.25
+  gunAnimator: {fileID: 0}
+  shootAnim: Shoot
+  reloadAnim: Reload
+  idleAnim: Idle
   magazineSize: 12
   currentAmmo: 0
   reserveAmmo: 60
@@ -2240,6 +2329,10 @@ MonoBehaviour:
   damage: 90
   range: 200
   fireRate: 1.2
+  gunAnimator: {fileID: 0}
+  shootAnim: Shoot
+  reloadAnim: Reload
+  idleAnim: Idle
   magazineSize: 5
   currentAmmo: 0
   reserveAmmo: 20
@@ -3770,7 +3863,7 @@ Transform:
   m_GameObject: {fileID: 5670131338564820887}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071057, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0.0024, y: 0.0867, z: 0.924}
+  m_LocalPosition: {x: -0.003, y: 0.115, z: 0.853}
   m_LocalScale: {x: -0.02, y: -0.02, z: -0.02}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4800,7 +4893,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 95, y: 95, z: 95}
+  m_LocalScale: {x: 83.56, y: 83.56, z: 83.56}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 344819850723300052}

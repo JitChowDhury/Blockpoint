@@ -9,6 +9,12 @@ public class GunFPS : MonoBehaviourPun
     public float range = 100f;
     public float fireRate = 0.1f;
 
+    [Header("Animations")]
+    public Animator gunAnimator;
+    public string shootAnim = "Shoot";
+    public string reloadAnim = "Reload";
+    public string idleAnim = "Idle";
+
     [Header("Ammo")]
     public int magazineSize = 30;
     public int currentAmmo;
@@ -27,6 +33,7 @@ public class GunFPS : MonoBehaviourPun
 
     void Start()
     {
+        gunAnimator.Play(idleAnim, 0, 0f);
         currentAmmo = magazineSize;
         if (muzzleFlash != null)
             muzzleFlash.SetActive(false);
@@ -76,6 +83,9 @@ public class GunFPS : MonoBehaviourPun
             muzzleTimer = muzzleFlashTime;
         }
 
+        if (gunAnimator != null)
+            gunAnimator.Play(shootAnim, 0, 0f);
+
         Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
         ray.origin = cam.transform.position;
 
@@ -99,9 +109,7 @@ public class GunFPS : MonoBehaviourPun
         }
     }
 
-    // --------------------------------------------------------------------
-    // Reload System
-    // --------------------------------------------------------------------
+
     public void Reload()
     {
         if (isReloading) return;
@@ -109,6 +117,9 @@ public class GunFPS : MonoBehaviourPun
         if (currentAmmo == magazineSize) return;
 
         isReloading = true;
+        if (gunAnimator != null)
+            gunAnimator.Play(reloadAnim, 0, 0f);
+
         Invoke(nameof(FinishReload), reloadTime);
     }
 
