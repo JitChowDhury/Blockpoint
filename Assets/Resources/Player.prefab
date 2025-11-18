@@ -455,8 +455,12 @@ MonoBehaviour:
   fireRate: 0.07
   gunAnimator: {fileID: 0}
   shootAnim: Shoot
-  reloadAnim: Reload
   idleAnim: Idle
+  reloadAnim: Reload
+  swapOutAnim: SwapOut
+  swapInAnim: SwapIn
+  swapOutTime: 0.2
+  swapInTime: 0.3
   magazineSize: 30
   currentAmmo: 0
   reserveAmmo: 120
@@ -825,8 +829,12 @@ MonoBehaviour:
   fireRate: 2
   gunAnimator: {fileID: 3571581593100278574}
   shootAnim: Shoot
-  reloadAnim: Reload
   idleAnim: Idle
+  reloadAnim: Reload
+  swapOutAnim: SwapOut
+  swapInAnim: SwapIn
+  swapOutTime: 0.5
+  swapInTime: 0.5
   magazineSize: 5
   currentAmmo: 0
   reserveAmmo: 20
@@ -1722,8 +1730,12 @@ MonoBehaviour:
   fireRate: 0.25
   gunAnimator: {fileID: 8097148764826258712}
   shootAnim: Shoot
-  reloadAnim: Reload
   idleAnim: Idle
+  reloadAnim: Reload
+  swapOutAnim: SwapOut
+  swapInAnim: SwapIn
+  swapOutTime: 0.25
+  swapInTime: 0.25
   magazineSize: 12
   currentAmmo: 0
   reserveAmmo: 60
@@ -1843,7 +1855,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2714331141954077740}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000566244, y: 0.000004209526, z: -0.0000067413503, w: -1}
+  m_LocalRotation: {x: 0.000000566244, y: 0.000004209526, z: -0.00000674135, w: -1}
   m_LocalPosition: {x: 0.264, y: -0.297, z: 0.326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1871,8 +1883,12 @@ MonoBehaviour:
   fireRate: 0.07
   gunAnimator: {fileID: 331459487058075766}
   shootAnim: Shoot
-  reloadAnim: Reload
   idleAnim: Idle
+  reloadAnim: Reload
+  swapOutAnim: SwapOut
+  swapInAnim: SwapIn
+  swapOutTime: 0.33
+  swapInTime: 0.33
   magazineSize: 30
   currentAmmo: 0
   reserveAmmo: 120
@@ -2268,8 +2284,12 @@ MonoBehaviour:
   fireRate: 0.25
   gunAnimator: {fileID: 0}
   shootAnim: Shoot
-  reloadAnim: Reload
   idleAnim: Idle
+  reloadAnim: Reload
+  swapOutAnim: SwapOut
+  swapInAnim: SwapIn
+  swapOutTime: 0.2
+  swapInTime: 0.3
   magazineSize: 12
   currentAmmo: 0
   reserveAmmo: 60
@@ -2331,8 +2351,12 @@ MonoBehaviour:
   fireRate: 1.2
   gunAnimator: {fileID: 0}
   shootAnim: Shoot
-  reloadAnim: Reload
   idleAnim: Idle
+  reloadAnim: Reload
+  swapOutAnim: SwapOut
+  swapInAnim: SwapIn
+  swapOutTime: 0.2
+  swapInTime: 0.3
   magazineSize: 5
   currentAmmo: 0
   reserveAmmo: 20
@@ -6151,12 +6175,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  jumpForce: 8
-  gravityMod: 2.5
-  bulletImpact: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
-  playerHitImpact: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
-  maxHealth: 100
-  playerModel: {fileID: 8704141038582296628}
   gunHolder: {fileID: 3945887416375765507}
   modelGunPoint: {fileID: 3633315960922220313}
   fpsGuns:
@@ -6171,6 +6189,12 @@ MonoBehaviour:
   - {fileID: 1161988876609101887}
   - {fileID: 2704680227767023946}
   - {fileID: 6779892111556312145}
+  bulletImpact: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
+  playerHitImpact: {fileID: 6577136744931991651, guid: 50dbb782485b7304ab3af6941e96b98a, type: 3}
+  jumpForce: 8
+  gravityMod: 2.5
+  maxHealth: 100
+  playerModel: {fileID: 8704141038582296628}
   anim: {fileID: 207772567503580144}
 --- !u!114 &4268517257489338393
 MonoBehaviour:

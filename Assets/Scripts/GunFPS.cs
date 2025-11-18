@@ -12,8 +12,17 @@ public class GunFPS : MonoBehaviourPun
     [Header("Animations")]
     public Animator gunAnimator;
     public string shootAnim = "Shoot";
-    public string reloadAnim = "Reload";
     public string idleAnim = "Idle";
+    public string reloadAnim = "Reload";
+    public string swapOutAnim = "SwapOut";
+    public string swapInAnim = "SwapIn";
+
+    [Header("Weapon Swap Settings")]
+    public float swapOutTime = 0.20f;
+    public float swapInTime = 0.30f;
+
+    private bool isSwapping = false;
+
 
     [Header("Ammo")]
     public int magazineSize = 30;
@@ -33,7 +42,10 @@ public class GunFPS : MonoBehaviourPun
 
     void Start()
     {
-        gunAnimator.Play(idleAnim, 0, 0f);
+        if (gunAnimator != null)
+        {
+            gunAnimator.Play(idleAnim, 0, 0f);
+        }
         currentAmmo = magazineSize;
         if (muzzleFlash != null)
             muzzleFlash.SetActive(false);
