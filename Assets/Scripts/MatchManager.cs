@@ -21,7 +21,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         NewPlayer,
         ListPlayers,
-        ChangeStat
+        UpdateStat
     }
 
     public List<PlayerInfo> allPlayers = new List<PlayerInfo>();
@@ -42,7 +42,27 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
+        if (photonEvent.Code < 200)
+        {
+            EventCodes theEvent = (EventCodes)photonEvent.Code;
+            object[] data = (object[])photonEvent.CustomData;
 
+
+            switch (theEvent)
+            {
+                case EventCodes.NewPlayer:
+                    NewPlayerReceive(data);
+                    break;
+                case EventCodes.ListPlayers:
+                    ListPlayersReceive(data);
+                    break;
+                case EventCodes.UpdateStat:
+                    UpdateStatsReceived(data);
+                    break;
+
+            }
+
+        }
     }
 
     public override void OnEnable()
@@ -52,6 +72,34 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public override void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    public void NewPlayerSend()
+    {
+
+    }
+
+    public void NewPlayerReceive(object[] dataRecieved)
+    {
+
+    }
+    public void ListPlayersSend()
+    {
+
+    }
+
+    public void ListPlayersReceive(object[] dataRecieved)
+    {
+
+    }
+    public void UpdateStatsSend()
+    {
+
+    }
+
+    public void UpdateStatsReceived(object[] dataRecieved)
+    {
+
     }
 
 
