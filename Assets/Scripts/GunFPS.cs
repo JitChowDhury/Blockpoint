@@ -111,7 +111,8 @@ public class GunFPS : MonoBehaviourPun
                     "DealDamage",
                     RpcTarget.All,
                     photonView.Owner.NickName,
-                    damage
+                    damage,
+                    PhotonNetwork.LocalPlayer.ActorNumber
                 );
             }
             else
