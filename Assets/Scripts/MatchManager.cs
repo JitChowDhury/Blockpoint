@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
+using UnityEditor.Build.Reporting;
 
 
 public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
@@ -100,15 +101,47 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
         PlayerInfo player = new PlayerInfo((string)dataRecieved[0], (int)dataRecieved[1], (int)dataRecieved[2], (int)dataRecieved[3]);
 
         allPlayers.Add(player);
+        ListPlayersSend();
     }
     public void ListPlayersSend()
     {
+        object[] package = new object[allPlayers.Count];
 
+        for (int i = 0; i < allPlayers.Count; i++)
+        {
+            object[] piece = new object[4];
+
+            piece[0] = allPlayers[i].name;
+            piece[1] = allPlayers[i].actor;
+            piece[2] = allPlayers[i].kills;
+            piece[3] = allPlayers[i].deaths;
+
+            package[i] = piece;
+        }
     }
 
     public void ListPlayersReceive(object[] dataRecieved)
     {
+        allPlayers.Clear();
 
+        for (int i = 0; i < dataRecieved.Length; i++)
+        {
+
+            object[] piece = (object[])dataRecieved[i];
+            PlayerInfo player = new PlayerInfo(
+                    (string)piece[0],
+                    (int)piece[1],
+                    (int)piece[2],
+                    (int)piece[3]
+            );
+
+            allPlayers.Add(player);
+
+            if (PhotonNetwork.LocalPlayer.ActorNumber == player.actor)
+            {
+                index = i;
+            }
+        }
     }
     public void UpdateStatsSend()
     {
