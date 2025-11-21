@@ -8,6 +8,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI overheatedMessage;
 
     public GameObject deathScreen;
+    public GameObject leaderBoard;
+    public LeaderboardPlayer leaderboardPlayerDisplay;
     public TMP_Text deathText;
     public TMP_Text ammoText;
     public TMP_Text killsText;

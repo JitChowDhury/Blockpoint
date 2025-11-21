@@ -26,6 +26,8 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public List<PlayerInfo> allPlayers = new List<PlayerInfo>();
     private int index;
+
+    private List<LeaderboardPlayer> lboardPlayers = new List<LeaderboardPlayer>();
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -41,8 +43,17 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ShowLeaderBoard();
+        }
 
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            UIController.Instance.leaderBoard.SetActive(false);
+        }
     }
+
 
     public void OnEvent(EventData photonEvent)
     {
@@ -211,6 +222,30 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
             UIController.Instance.deathsText.text = "Deaths: 0";
         }
 
+    }
+
+    void ShowLeaderBoard()
+    {
+        UIController.Instance.leaderBoard.SetActive(true);
+
+        foreach (LeaderboardPlayer lp in lboardPlayers)
+        {
+            Destroy(lp.gameObject);
+        }
+        lboardPlayers.Clear();
+
+        UIController.Instance.leaderboardPlayerDisplay.gameObject.SetActive(false);
+
+        foreach (PlayerInfo player in allPlayers)
+        {
+            LeaderboardPlayer newPlayerDisplay = Instantiate(UIController.Instance.leaderboardPlayerDisplay, UIController.Instance.leaderboardPlayerDisplay.transform.parent);
+
+            newPlayerDisplay.SetDetails(player.name, player.kills, player.deaths);
+
+            newPlayerDisplay.gameObject.SetActive(true);
+
+            lboardPlayers.Add(newPlayerDisplay);
+        }
     }
 
 }
