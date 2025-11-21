@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
-using UnityEditor.Build.Reporting;
 
 
 public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
@@ -118,6 +117,15 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             package[i] = piece;
         }
+
+        PhotonNetwork.RaiseEvent(
+    (byte)EventCodes.ListPlayers,
+    package,
+    new RaiseEventOptions { Receivers = ReceiverGroup.All },
+    new SendOptions { Reliability = true }
+
+
+);
     }
 
     public void ListPlayersReceive(object[] dataRecieved)
