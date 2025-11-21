@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using System.Collections;
+using TMPro;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private float gravityMod = 2.5f;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private GameObject playerModel;
+
+
     public Animator anim;
 
     private int selectedGun;
@@ -45,20 +48,31 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
 
+
         currentHealth = maxHealth;
         UIController.Instance.healthSlider.maxValue = maxHealth;
         UIController.Instance.healthSlider.value = currentHealth;
+        FloatingText ft = GetComponentInChildren<FloatingText>();
+        if (ft != null)
+        {
+            // Set nickname
+            ft.nameText.text = photonView.Owner.NickName;
+        }
 
         if (photonView.IsMine)
         {
             //if local player then disable the model
             playerModel.SetActive(false);
+
+
         }
         else
         {
             gunHolder.SetParent(modelGunPoint);
             gunHolder.localPosition = Vector3.zero;
             gunHolder.localRotation = Quaternion.identity;
+
+
         }
 
         // sync starting gun
