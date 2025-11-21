@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
+using UnityEditor;
 
 
 public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
@@ -201,7 +202,10 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     UpdateStatsDisplay();
                 }
-
+                if (UIController.Instance.leaderBoard.activeInHierarchy)
+                {
+                    ShowLeaderBoard();
+                }
                 break;
 
             }
@@ -236,7 +240,9 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         UIController.Instance.leaderboardPlayerDisplay.gameObject.SetActive(false);
 
-        foreach (PlayerInfo player in allPlayers)
+        List<PlayerInfo> sorted = SortPlayers(allPlayers);
+
+        foreach (PlayerInfo player in sorted)
         {
             LeaderboardPlayer newPlayerDisplay = Instantiate(UIController.Instance.leaderboardPlayerDisplay, UIController.Instance.leaderboardPlayerDisplay.transform.parent);
 
@@ -246,6 +252,35 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             lboardPlayers.Add(newPlayerDisplay);
         }
+    }
+
+
+    private List<PlayerInfo> SortPlayers(List<PlayerInfo> players)
+    {
+        List<PlayerInfo> sorted = new List<PlayerInfo>();
+
+        while (sorted.Count < players.Count)
+        {
+            int highest = -1;
+            PlayerInfo selectedPlayer = players[0];
+
+            foreach (PlayerInfo player in players)
+            {
+                if (!sorted.Contains(player))
+                {
+                    if (player.kills > highest)
+                    {
+                        selectedPlayer = player;
+                        highest = player.kills;
+                    }
+                }
+
+            }
+            sorted.Add(selectedPlayer);
+        }
+
+
+        return sorted;
     }
 
 }
