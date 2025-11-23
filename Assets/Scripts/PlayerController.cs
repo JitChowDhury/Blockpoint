@@ -99,8 +99,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //so that only local player is being effected
         if (!photonView.IsMine) return;
 
-        cam.transform.position = viewPoint.position;
-        cam.transform.rotation = viewPoint.rotation;
+
+        if (MatchManager.Instance.state == MatchManager.GameState.Playing)
+        {
+            cam.transform.position = viewPoint.position;
+            cam.transform.rotation = viewPoint.rotation;
+        }
+        else
+        {
+            cam.transform.position = MatchManager.Instance.mapCamPoint.position;
+            cam.transform.rotation = MatchManager.Instance.mapCamPoint.rotation;
+        }
+
+
     }
 
     // ------------------- LOOK --------------------

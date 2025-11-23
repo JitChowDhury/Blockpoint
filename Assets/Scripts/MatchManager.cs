@@ -5,6 +5,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
 using UnityEditor;
+using System.Collections;
 
 
 public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
@@ -58,12 +59,12 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && state != GameState.Ending)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             ShowLeaderBoard();
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.Tab) && state != GameState.Ending)
         {
             UIController.Instance.leaderBoard.SetActive(false);
         }
@@ -180,6 +181,8 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 index = i - 1;
             }
         }
+
+        StateCheck();
     }
     public void UpdateStatsSend(int actorSending, int statToUpdate, int amountToChange)
     {
@@ -331,6 +334,39 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             }
         }
+    }
+
+
+    void StateCheck()
+    {
+        if (state == GameState.Ending)
+        {
+            EndGame();
+        }
+
+    }
+
+    void EndGame()
+    {
+        state = GameState.Ending;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.DestroyAll();
+        }
+
+        UIController.Instance.endScreen.SetActive(true);
+        ShowLeaderBoard();
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        StartCoroutine(EndCo());
+    }
+
+    private IEnumerator EndCo()
+    {
+        yield return new WaitForSeconds(waitAfterEnding);
+        PhotonNetwork.LeaveRoom();
     }
 }
 
