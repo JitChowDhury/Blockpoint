@@ -26,7 +26,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
 
-    private bool hasSetNickName;
+    public static bool hasSetNickName;
 
 
     private void Awake()
@@ -43,7 +43,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 #if UNITY_EDITOR
         roomTestButton.SetActive(true);
-#endif        
+#endif
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void CloseMenus()
