@@ -92,6 +92,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         anim.SetFloat("speed", moveDir.magnitude);
         anim.SetBool("grounded", IsGrounded());
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (Cursor.lockState == CursorLockMode.None)
+        {
+            if (Input.GetMouseButtonDown(0) && !UIController.Instance.optionsScreen.activeInHierarchy)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
     }
 
     void LateUpdate()

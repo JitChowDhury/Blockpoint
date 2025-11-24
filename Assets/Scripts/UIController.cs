@@ -1,3 +1,4 @@
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class UIController : MonoBehaviour
     public GameObject deathScreen;
     public GameObject leaderBoard;
     public GameObject endScreen;
+    public GameObject optionsScreen;
     public LeaderboardPlayer leaderboardPlayerDisplay;
     public TMP_Text deathText;
     public TMP_Text ammoText;
@@ -28,6 +30,41 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowHideOptions();
+        }
 
+        if (optionsScreen.activeInHierarchy && Cursor.lockState != CursorLockMode.None)
+        {
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+    }
+
+    public void ShowHideOptions()
+    {
+        if (!optionsScreen.activeInHierarchy)
+        {
+            optionsScreen.SetActive(true);
+
+        }
+        else
+        {
+            optionsScreen.SetActive(false);
+        }
+    }
+
+    public void ReturnToMainmenu()
+    {
+        PhotonNetwork.AutomaticallySyncScene = false;
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
