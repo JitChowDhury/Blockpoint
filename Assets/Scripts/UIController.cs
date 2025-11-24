@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     public TMP_Text ammoText;
     public TMP_Text killsText;
     public TMP_Text deathsText;
+    public TMP_Text TimerText;
     public Slider weaponTempSlider;
     public Slider healthSlider;
 
