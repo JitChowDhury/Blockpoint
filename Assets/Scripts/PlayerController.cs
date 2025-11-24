@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private GunFPS[] fpsGuns;
     [SerializeField] private GameObject[] tpsGuns;
     [SerializeField] private GunFPS[] allGuns;
+    [SerializeField] private Material[] allSkins;
 
     [Header("Effects")]
     [SerializeField] private GameObject bulletImpact;
@@ -77,6 +78,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         // sync starting gun
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
+
+        playerModel.GetComponent<Renderer>().material = allSkins[photonView.Owner.ActorNumber % allSkins.Length];
     }
 
     void Update()

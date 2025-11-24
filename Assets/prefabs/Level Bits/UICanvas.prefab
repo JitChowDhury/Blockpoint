@@ -2170,7 +2170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a07fe4b7a188d574e975216e0eb8048b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 2
+  rotationSpeed: 5
 --- !u!223 &7994267626060356013
 Canvas:
   m_ObjectHideFlags: 0
