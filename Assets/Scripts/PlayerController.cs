@@ -33,6 +33,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [Header("Ads Settings")]
     public Transform adsOutPoint;
 
+    [Header("Footstep Settings")]
+    public AudioSource footstepSource;
+
+    public AudioClip[] walkFootsteps;
+    public AudioClip[] runFootsteps;
+
+    public float walkStepInterval = 0.5f;
+    public float runStepInterval = 0.35f;
+
+    private float footstepTimer;
+
+    [Header("Jump & Landing Sounds")]
+    public AudioClip jumpSound;
+    public AudioClip landSound;
+
+    public float landSoundThreshold = -8f;
+    private float lastYVelocity;
+    private bool wasGroundedLastFrame;
+
 
     // inside PlayerController class
     private bool isLocalScopeActive = false;
@@ -95,6 +114,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         HandleLook();
         HandleMovement();
         HandleJump();
+        HandleJumpSounds();
+
+        HandleFootsteps();
+
         HandleGunInput();
 
         HandleWeaponSwapInput();
@@ -186,8 +209,35 @@ public class PlayerController : MonoBehaviourPunCallbacks
             movement.y = jumpForce;
         }
     }
+    void HandleJumpSounds()
+    {
+        if (!photonView.IsMine) return;
 
-    // ------------------- SHOOT + RELOAD --------------------
+        bool grounded = IsGrounded();
+
+        // JUMP sound
+        if (grounded && Input.GetButtonDown("Jump"))
+        {
+            if (jumpSound != null)
+                footstepSource.PlayOneShot(jumpSound);
+        }
+
+        // LANDING sound
+        if (!wasGroundedLastFrame && grounded)
+        {
+            // Only play landing if you hit ground with enough speed
+            if (lastYVelocity < landSoundThreshold)
+            {
+                if (landSound != null)
+                    footstepSource.PlayOneShot(landSound);
+            }
+        }
+
+        // Save states
+        lastYVelocity = movement.y;
+        wasGroundedLastFrame = grounded;
+    }
+
     void HandleGunInput()
     {
         if (isSwapping) return; //cannot shoot while swapping
@@ -207,7 +257,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         UIController.Instance.ammoText.text = gun.currentAmmo + " / " + gun.reserveAmmo;
     }
 
-    // ------------------- WEAPON SWAP INPUT --------------------
     void HandleWeaponSwapInput()
     {
         if (isSwapping) return;
@@ -304,6 +353,49 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     }
 
+    void HandleFootsteps()
+    {
+        if (!photonView.IsMine) return; // only local player plays sound
+
+        // Player must be moving on ground
+        if (IsGrounded() && moveDir.magnitude > 0.2f)
+        {
+            footstepTimer -= Time.deltaTime;
+
+            float interval = Input.GetKey(KeyCode.LeftShift) ? runStepInterval : walkStepInterval;
+
+            if (footstepTimer <= 0)
+            {
+                PlayFootstep();
+                footstepTimer = interval;
+            }
+        }
+        else
+        {
+            footstepTimer = 0f;
+        }
+    }
+    void PlayFootstep()
+    {
+        if (footstepSource == null) return;
+
+        AudioClip clip = null;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (runFootsteps.Length > 0)
+                clip = runFootsteps[Random.Range(0, runFootsteps.Length)];
+        }
+        else // walking
+        {
+            if (walkFootsteps.Length > 0)
+                clip = walkFootsteps[Random.Range(0, walkFootsteps.Length)];
+        }
+
+        if (clip != null)
+            footstepSource.PlayOneShot(clip);
+    }
+
 
 
 
@@ -318,6 +410,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (oldGun.gunAnimator != null)
             oldGun.gunAnimator.Play(oldGun.swapOutAnim, 0, 0f);
+
+        if (oldGun.audioSource != null)
+            oldGun.audioSource.Stop();
+
 
         yield return new WaitForSeconds(outTime);
 

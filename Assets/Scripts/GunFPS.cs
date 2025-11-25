@@ -42,6 +42,10 @@ public class GunFPS : MonoBehaviourPun
     public float muzzleFlashTime = 0.05f;
     public GameObject worldHitEffect;
     public GameObject playerHitEffect;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip shootSound;
+    public AudioClip reloadSound;
 
     private float nextShotTime;
     private bool isReloading = false;
@@ -145,7 +149,8 @@ public class GunFPS : MonoBehaviourPun
     {
         nextShotTime = Time.time + fireRate;
         currentAmmo--;
-
+        if (audioSource != null && shootSound != null)
+            audioSource.PlayOneShot(shootSound);
         // Flash
         if (muzzleFlash != null)
         {
@@ -191,6 +196,8 @@ public class GunFPS : MonoBehaviourPun
         if (currentAmmo == magazineSize) return;
 
         isReloading = true;
+        if (audioSource != null && reloadSound != null)
+            audioSource.PlayOneShot(reloadSound);
 
         if (gunAnimator != null)
             gunAnimator.Play(reloadAnim, 0, 0f);
@@ -205,6 +212,8 @@ public class GunFPS : MonoBehaviourPun
 
         currentAmmo += loadAmount;
         reserveAmmo -= loadAmount;
+        if (audioSource != null)
+            audioSource.Stop();
         isReloading = false;
     }
 }
