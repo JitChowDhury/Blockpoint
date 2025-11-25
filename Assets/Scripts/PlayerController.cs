@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private GameObject playerModel;
 
+    [Header("Ads Settings")]
+    public Transform adsOutPoint;
+
+
+    // inside PlayerController class
+    private bool isLocalScopeActive = false;
 
     public Animator anim;
 
@@ -92,6 +98,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         HandleGunInput();
 
         HandleWeaponSwapInput();
+        HandleADSInput();
+
 
         anim.SetFloat("speed", moveDir.magnitude);
         anim.SetBool("grounded", IsGrounded());
@@ -229,6 +237,75 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
     }
+    void HandleADSInput()
+    {
+        GunFPS gun = allGuns[selectedGun];
+
+        if (Input.GetMouseButton(1))
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gun.adsZoom, gun.adsSpeed * Time.deltaTime);
+
+            gunHolder.position = Vector3.Lerp(gunHolder.position, gun.adsInPoint.position, gun.adsSpeed * Time.deltaTime);
+
+            if (gun.isSniper)
+            {
+                float dist = Vector3.Distance(gunHolder.position, gun.adsInPoint.position);
+
+                if (dist < 0.03f)
+                {
+                    if (!isLocalScopeActive)
+                    {
+
+                        UIController.Instance.sniperScopeOverlay.SetActive(true);
+
+                        if (fpsGuns[selectedGun] != null)
+                            fpsGuns[selectedGun].gameObject.SetActive(false);
+
+                        isLocalScopeActive = true;
+                    }
+
+                    cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gun.finalScopeFOV, Time.deltaTime * (gun.adsSpeed / 2f));
+                }
+            }
+            else
+            {
+
+                if (isLocalScopeActive)
+                {
+
+                    UIController.Instance.sniperScopeOverlay.SetActive(false);
+                    if (fpsGuns[selectedGun] != null)
+                        fpsGuns[selectedGun].gameObject.SetActive(true);
+                    isLocalScopeActive = false;
+                }
+            }
+        }
+        else
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 60f, allGuns[selectedGun].adsSpeed * Time.deltaTime);
+            gunHolder.position = Vector3.Lerp(gunHolder.position, adsOutPoint.position, allGuns[selectedGun].adsSpeed * Time.deltaTime);
+
+            if (fpsGuns[selectedGun].muzzleFlash != null)
+            {
+                fpsGuns[selectedGun].muzzleFlash.SetActive(false);
+                fpsGuns[selectedGun].muzzleTimer = 0;
+            }
+
+            if (isLocalScopeActive)
+            {
+                UIController.Instance.sniperScopeOverlay.SetActive(false);
+
+                if (fpsGuns[selectedGun] != null)
+                    fpsGuns[selectedGun].gameObject.SetActive(true);
+
+                isLocalScopeActive = false;
+            }
+        }
+
+    }
+
+
+
 
     // ------------------- WEAPON SWAP ROUTINE --------------------
     private IEnumerator SwapWeapon(int newGun)
@@ -257,6 +334,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(inTime);
 
         isSwapping = false;
+        // After isSwapping = false;
+        if (isLocalScopeActive)
+        {
+            // turn off overlay and ensure the (new) selected gun is active
+            UIController.Instance.sniperScopeOverlay.SetActive(false);
+
+            if (fpsGuns[selectedGun] != null)
+                fpsGuns[selectedGun].gameObject.SetActive(true);
+
+            isLocalScopeActive = false;
+        }
+
     }
 
     // ------------------- GUN VISIBILITY SWITCH --------------------

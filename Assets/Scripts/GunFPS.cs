@@ -21,8 +21,15 @@ public class GunFPS : MonoBehaviourPun
     public float swapOutTime = 0.20f;
     public float swapInTime = 0.30f;
 
-    private bool isSwapping = false;
+    [Header("ADS Settings")]
+    public float adsZoom;
+    public Transform adsInPoint;
+    public float adsSpeed = 10f;
+    public bool isSniper = false;
+    public float finalScopeFOV = 12f;
 
+    // public bool isScopedWeapon = false;  // sniper = true
+    // [HideInInspector] public bool isADS = false;
 
     [Header("Ammo")]
     public int magazineSize = 30;
@@ -31,29 +38,43 @@ public class GunFPS : MonoBehaviourPun
     public float reloadTime = 1.3f;
 
     [Header("Effects")]
-    public GameObject muzzleFlash;         // GameObject flash
-    public float muzzleFlashTime = 0.05f;  // Duration flash is ON
+    public GameObject muzzleFlash;
+    public float muzzleFlashTime = 0.05f;
     public GameObject worldHitEffect;
     public GameObject playerHitEffect;
 
     private float nextShotTime;
     private bool isReloading = false;
-    private float muzzleTimer;
+    public float muzzleTimer;
+
+    private Vector3 targetPos;
+    private Quaternion targetRot;
 
     void Start()
     {
-        if (gunAnimator != null)
-        {
-            gunAnimator.Play(idleAnim, 0, 0f);
-        }
         currentAmmo = magazineSize;
+
+        if (gunAnimator != null)
+            gunAnimator.Play(idleAnim, 0, 0f);
+
         if (muzzleFlash != null)
             muzzleFlash.SetActive(false);
+
+        // if (hipPosition == null || adsPosition == null)
+        //     Debug.LogError(name + ": HipPosition or ADSPosition is not assigned!");
     }
 
     void Update()
     {
-        // Turn off muzzle flash after a short duration
+        HandleMuzzleFlash();
+        // HandleADS();
+    }
+
+    // ----------------------------
+    // MUZZLE FLASH TIMER
+    // ----------------------------
+    void HandleMuzzleFlash()
+    {
         if (muzzleFlash != null && muzzleFlash.activeSelf)
         {
             muzzleTimer -= Time.deltaTime;
@@ -62,9 +83,46 @@ public class GunFPS : MonoBehaviourPun
         }
     }
 
-    // --------------------------------------------------------------------
-    // Called by PlayerController when shooting
-    // --------------------------------------------------------------------
+    // ----------------------------
+    // ADS SMOOTH MOVEMENT
+    // ----------------------------
+    // void HandleADS()
+    // {
+    //     if (isADS)
+    //     {
+    //         // move toward ADS
+    //         transform.localPosition = Vector3.Lerp(
+    //             transform.localPosition,
+    //             adsPosition.localPosition,
+    //             Time.deltaTime * adsSpeed
+    //         );
+
+    //         transform.localRotation = Quaternion.Lerp(
+    //             transform.localRotation,
+    //             adsPosition.localRotation,
+    //             Time.deltaTime * adsSpeed
+    //         );
+    //     }
+    //     else
+    //     {
+    //         // move toward Hip
+    //         transform.localPosition = Vector3.Lerp(
+    //             transform.localPosition,
+    //             hipPosition.localPosition,
+    //             Time.deltaTime * adsSpeed
+    //         );
+
+    //         transform.localRotation = Quaternion.Lerp(
+    //             transform.localRotation,
+    //             hipPosition.localRotation,
+    //             Time.deltaTime * adsSpeed
+    //         );
+    //     }
+    // }
+
+    // ----------------------------
+    // TRY SHOOT
+    // ----------------------------
     public void TryShoot(Camera cam, GameObject bulletImpact, GameObject playerImpact)
     {
         if (!photonView.IsMine) return;
@@ -80,15 +138,15 @@ public class GunFPS : MonoBehaviourPun
         Shoot(cam, bulletImpact, playerImpact);
     }
 
-    // --------------------------------------------------------------------
-    // Shooting Logic
-    // --------------------------------------------------------------------
+    // ----------------------------
+    // SHOOT LOGIC
+    // ----------------------------
     void Shoot(Camera cam, GameObject bulletImpact, GameObject playerImpact)
     {
         nextShotTime = Time.time + fireRate;
         currentAmmo--;
 
-        // Muzzle Flash
+        // Flash
         if (muzzleFlash != null)
         {
             muzzleFlash.SetActive(true);
@@ -98,6 +156,7 @@ public class GunFPS : MonoBehaviourPun
         if (gunAnimator != null)
             gunAnimator.Play(shootAnim, 0, 0f);
 
+        // Raycast
         Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
         ray.origin = cam.transform.position;
 
@@ -122,7 +181,9 @@ public class GunFPS : MonoBehaviourPun
         }
     }
 
-
+    // ----------------------------
+    // RELOAD
+    // ----------------------------
     public void Reload()
     {
         if (isReloading) return;
@@ -130,6 +191,7 @@ public class GunFPS : MonoBehaviourPun
         if (currentAmmo == magazineSize) return;
 
         isReloading = true;
+
         if (gunAnimator != null)
             gunAnimator.Play(reloadAnim, 0, 0f);
 

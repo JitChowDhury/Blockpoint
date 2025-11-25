@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     public GameObject leaderBoard;
     public GameObject endScreen;
     public GameObject optionsScreen;
+    public GameObject sniperScopeOverlay;
     public LeaderboardPlayer leaderboardPlayerDisplay;
     public TMP_Text deathText;
     public TMP_Text ammoText;
