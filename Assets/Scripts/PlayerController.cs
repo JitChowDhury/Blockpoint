@@ -1,5 +1,8 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
 using System.Collections;
 using TMPro;
 
@@ -69,6 +72,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool isSwapping = false;
 
+    [Header("Blood")]
+    private Volume globalVolume;
+    private Vignette vignette;
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -105,11 +113,40 @@ public class PlayerController : MonoBehaviourPunCallbacks
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
 
         playerModel.GetComponent<Renderer>().material = allSkins[photonView.Owner.ActorNumber % allSkins.Length];
+
+
+        globalVolume = FindFirstObjectByType<Volume>();
+
+        if (globalVolume != null)
+        {
+            // try get vignette override from the scene global volume
+            globalVolume.profile.TryGet(out vignette);
+        }
+        else
+        {
+            Debug.LogError("No Global Volume found in scene for Vignette damage effect!");
+        }
+
+        if (vignette != null)
+            Debug.Log("Vignette FOUND in scene");
+        else
+            Debug.LogError("Vignette NOT FOUND!!!");
+
+
     }
 
     void Update()
     {
         if (!photonView.IsMine) return;
+        if (vignette != null)
+        {
+            vignette.intensity.value = Mathf.Lerp(
+                vignette.intensity.value,
+                0f,
+                Time.deltaTime * 2f
+            );
+        }
+
 
         HandleLook();
         HandleMovement();
@@ -470,6 +507,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         UIController.Instance.healthSlider.value = currentHealth;
+        if (vignette != null)
+        {
+
+
+            vignette.intensity.value = Mathf.Clamp(
+                vignette.intensity.value + (damage * 0.015f),
+                0f,
+                0.55f
+            );
+        }
+
 
         if (currentHealth <= 0)
         {
