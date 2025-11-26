@@ -514,7 +514,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             vignette.intensity.value = Mathf.Clamp(
                 vignette.intensity.value + (damage * 0.015f),
                 0f,
-                0.55f
+                0.7f
             );
         }
 

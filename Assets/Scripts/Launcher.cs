@@ -23,6 +23,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private RoomButton theRoomButton;
     [SerializeField] private string levelToPlay;
+    [SerializeField] private Animator titleAnimator;
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
 
@@ -243,9 +244,20 @@ public class Launcher : MonoBehaviourPunCallbacks
 
             CloseMenus();
             menuButtons.SetActive(true);
-
+            PlayTitleAnimation();
             hasSetNickName = true;
         }
+    }
+    private void PlayTitleAnimation()
+    {
+
+        titleAnimator.SetTrigger("Play");
+        titleAnimator.SetTrigger("Button");
+
+
+
+        // titleAnimator.Play("TextAnim");
+        // titleAnimator.Play("ButtonAnim");
     }
 
 
