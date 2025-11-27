@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float verticalRotStore;
     private Vector3 movement, moveDir;
     private float activeMoveSpeed;
+    private float carDamageCooldown = 1f;
+    private float carDamageTimer = 0f;
 
     private bool isSwapping = false;
 
@@ -138,6 +140,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void Update()
     {
         if (!photonView.IsMine) return;
+        if (carDamageTimer > 0)
+            carDamageTimer -= Time.deltaTime;
+
         if (vignette != null)
         {
             vignette.intensity.value = Mathf.Lerp(
@@ -436,12 +441,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
 
 
-    // ------------------- WEAPON SWAP ROUTINE --------------------
     private IEnumerator SwapWeapon(int newGun)
     {
         isSwapping = true;
 
-        // Play SwapOut animation on current gun
         GunFPS oldGun = fpsGuns[selectedGun];
         float outTime = oldGun.swapOutTime;
 
@@ -481,7 +484,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     }
 
-    // ------------------- GUN VISIBILITY SWITCH --------------------
     void SwitchGun()
     {
         foreach (var g in fpsGuns) g.gameObject.SetActive(false);
@@ -521,11 +523,46 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (currentHealth <= 0)
         {
+            ResetADSState();
             currentHealth = 0;
             PlayerSpawner.Instance.Die(damager);
             MatchManager.Instance.UpdateStatsSend(actor, 0, 1);
         }
     }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (!photonView.IsMine) return;
+        if (!hit.collider.CompareTag("Car")) return;
+
+        if (carDamageTimer > 0) return;
+
+        // Reset cooldown
+        carDamageTimer = carDamageCooldown;
+
+        photonView.RPC("DealDamage", RpcTarget.All, "Car", 10, photonView.Owner.ActorNumber);
+    }
+
+    public void ResetADSState()
+    {
+        if (photonView.IsMine)
+            cam.fieldOfView = 60f;
+
+        gunHolder.position = adsOutPoint.position;
+
+        if (fpsGuns[selectedGun].muzzleFlash != null)
+            fpsGuns[selectedGun].muzzleFlash.SetActive(false);
+
+        fpsGuns[selectedGun].muzzleTimer = 0;
+
+        UIController.Instance.sniperScopeOverlay.SetActive(false);
+
+        // Re-enable FPS gun model
+        if (fpsGuns[selectedGun] != null)
+            fpsGuns[selectedGun].gameObject.SetActive(true);
+
+        isLocalScopeActive = false;
+    }
+
 
 
     [PunRPC]

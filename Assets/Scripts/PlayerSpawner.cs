@@ -30,6 +30,7 @@ public class PlayerSpawner : MonoBehaviour
         Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
         player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
 
+
     }
 
     public void Die(string damager)

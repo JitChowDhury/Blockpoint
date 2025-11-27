@@ -485,6 +485,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
         if (matchLength > 0)
         {
             currentMatchTime = matchLength;
+            UpdateTimerDisplay();
 
         }
     }
