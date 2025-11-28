@@ -63,12 +63,49 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             state = GameState.Playing;
             SetupTimer();
-
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+            }
             if (!PhotonNetwork.IsMasterClient)
             {
                 UIController.Instance.TimerText.gameObject.SetActive(false);
             }
         }
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.RaiseEvent(
+                (byte)EventCodes.ListPlayers,
+                BuildPlayerListPackage(),
+                new RaiseEventOptions { TargetActors = new int[] { newPlayer.ActorNumber } },
+                new SendOptions { Reliability = true }
+            );
+
+            ListPlayersSend();
+        }
+    }
+
+
+    private object[] BuildPlayerListPackage()
+    {
+        object[] package = new object[allPlayers.Count + 1];
+        package[0] = state;
+
+        for (int i = 0; i < allPlayers.Count; i++)
+        {
+            object[] piece = new object[4];
+            piece[0] = allPlayers[i].name;
+            piece[1] = allPlayers[i].actor;
+            piece[2] = allPlayers[i].kills;
+            piece[3] = allPlayers[i].deaths;
+
+            package[i + 1] = piece;
+        }
+
+        return package;
     }
 
     // Update is called once per frame
@@ -76,13 +113,16 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ShowLeaderBoard();
+            if (state != GameState.Ending)
+                ShowLeaderBoard();
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab) && state != GameState.Ending)
+        if (Input.GetKeyUp(KeyCode.Tab))
         {
-            UIController.Instance.leaderBoard.SetActive(false);
+            if (state != GameState.Ending)
+                UIController.Instance.leaderBoard.SetActive(false);
         }
+
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -172,13 +212,23 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
         );
     }
 
-    public void NewPlayerReceive(object[] dataRecieved)
+    public void NewPlayerReceive(object[] data)
     {
-        PlayerInfo player = new PlayerInfo((string)dataRecieved[0], (int)dataRecieved[1], (int)dataRecieved[2], (int)dataRecieved[3]);
+        PlayerInfo player = new PlayerInfo(
+            (string)data[0],
+            (int)data[1],
+            (int)data[2],
+            (int)data[3]);
 
-        allPlayers.Add(player);
-        ListPlayersSend();
+        // prevent duplicates
+        if (!allPlayers.Exists(p => p.actor == player.actor))
+            allPlayers.Add(player);
+
+        // MASTER ONLY should broadcast
+        if (PhotonNetwork.IsMasterClient)
+            ListPlayersSend();
     }
+
     public void ListPlayersSend()
     {
         object[] package = new object[allPlayers.Count + 1];

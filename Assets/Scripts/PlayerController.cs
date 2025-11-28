@@ -523,10 +523,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (currentHealth <= 0)
         {
-            ResetADSState();
-            currentHealth = 0;
-            PlayerSpawner.Instance.Die(damager);
-            MatchManager.Instance.UpdateStatsSend(actor, 0, 1);
+            if (photonView.IsMine)
+            {
+                ResetADSState();
+                currentHealth = 0;
+
+                PlayerSpawner.Instance.Die(damager);
+
+                MatchManager.Instance.UpdateStatsSend(actor, 0, 1);
+            }
         }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)

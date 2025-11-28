@@ -2726,6 +2726,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - BEVEL_ON
+  - GLOW_ON
   - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -2760,17 +2762,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Ambient: 0.5
-    - _Bevel: 0.5
+    - _Ambient: 0.199
+    - _Bevel: 0.211
     - _BevelClamp: 0
-    - _BevelOffset: 0
-    - _BevelRoundness: 0
-    - _BevelWidth: 0
-    - _BumpFace: 0
+    - _BevelOffset: -0.181
+    - _BevelRoundness: 1
+    - _BevelWidth: 0.088
+    - _BumpFace: 0.164
     - _BumpOutline: 0
     - _ColorMask: 15
     - _CullMode: 0
-    - _Diffuse: 0.5
+    - _Diffuse: 0.397
     - _FaceDilate: 0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
@@ -2779,7 +2781,7 @@ Material:
     - _GlowOuter: 0.05
     - _GlowPower: 0.75
     - _GradientScale: 6
-    - _LightAngle: 3.1416
+    - _LightAngle: 6.28
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
     - _OutlineSoftness: 0
@@ -2795,7 +2797,7 @@ Material:
     - _ScaleY: 1
     - _ShaderFlags: 0
     - _Sharpness: 0
-    - _SpecularPower: 2
+    - _SpecularPower: 1.46
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -2814,13 +2816,13 @@ Material:
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
+    - _FaceColor: {r: 0.09019608, g: 0.14509805, b: 0.16078432, a: 1}
+    - _GlowColor: {r: 2, g: 2, b: 2, a: 1}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 0, g: 0.45490187, b: 0.5333333, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _UnderlayColor: {r: 0, g: 0.24371067, b: 0.28301883, a: 0.6117647}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

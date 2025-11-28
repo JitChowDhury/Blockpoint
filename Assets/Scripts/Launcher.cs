@@ -42,6 +42,16 @@ public class Launcher : MonoBehaviourPunCallbacks
         CloseMenus();
         loadingScreen.SetActive(true);
         loadingText.text = "Connecting To Network...";
+        if (!hasSetNickName)
+        {
+            // user has never entered name → do NOT play title animation yet
+        }
+        else
+        {
+            // returning from match or restart → replay animation
+            PlayTitleAnimation();
+        }
+
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
@@ -198,6 +208,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         CloseMenus();
         menuButtons.SetActive(true);
+
     }
 
     public void OpenRoomBrowser()
