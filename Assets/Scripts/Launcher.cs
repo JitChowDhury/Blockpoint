@@ -226,24 +226,25 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomButton rb in allRoomButtons)
-        {
             Destroy(rb.gameObject);
-        }
+
         allRoomButtons.Clear();
         theRoomButton.gameObject.SetActive(false);
 
-        for (int i = 0; i < roomList.Count; i++)
+        foreach (RoomInfo info in roomList)
         {
-            if (roomList[i].PlayerCount != roomList[i].MaxPlayers && !roomList[i].RemovedFromList)
+            if (!info.RemovedFromList &&
+                info.IsOpen == true &&
+                info.PlayerCount < info.MaxPlayers)
             {
                 RoomButton newButton = Instantiate(theRoomButton, theRoomButton.transform.parent);
-                newButton.SetButtonDetails(roomList[i]);
+                newButton.SetButtonDetails(info);
                 newButton.gameObject.SetActive(true);
-
                 allRoomButtons.Add(newButton);
             }
         }
     }
+
 
     public void JoinRoom(RoomInfo inputInfo)
     {
